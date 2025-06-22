@@ -26,11 +26,6 @@ public class LoginController {
             String p = view.getPasswordField().getText().trim();
 
             User user = Users.get().auth(u, p);
-            if (user == null) {
-                view.getPasswordField().clear();
-                showMsg("Ошибка", "Заполните логин и пароль верно!");
-                return;
-            }
 
             UserView uv = new UserView();
             stage.setScene(new Scene(uv.getRoot()));
@@ -69,10 +64,5 @@ public class LoginController {
         new LoginController(stage, lv);
         stage.setScene(new Scene(lv.getRoot()));
         stage.setTitle("Приложение для бронирования туров | Вход в систему");
-    }
-
-    private void showMsg(String h,String m){
-        Alert a = new Alert(Alert.AlertType.INFORMATION);
-        a.setHeaderText(h); a.setContentText(m); a.initOwner(stage); a.showAndWait();
     }
 }

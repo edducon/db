@@ -37,16 +37,10 @@ public class RegistrationController {
             String ph = view.getPhoneField().getText().trim();
             String cn = view.getCountryBox().getValue();
 
-            if (u.isEmpty()||pw.isEmpty()||ln.isEmpty()||fn.isEmpty()
-                    ||ad.isEmpty()||ph.isEmpty()||cn==null) {
-                showMsg("Ошибка", "Заполните все нужные поля"); return;
-            }
-
             int cid = Clients.get().insert(ln, fn, pt, ad, ph);
             Preferences.INSTANCE.setPreferredCountry(cid, cn);
             Users.get().insert(u, pw, cid, "USER");
 
-            showMsg("Успешно", "Вы зарегистрированы как " + u);
             new BackHandler().handle(null);
         }
     }
@@ -57,10 +51,5 @@ public class RegistrationController {
             new LoginController(stage, lv);
             stage.setScene(new Scene(lv.getRoot()));
         }
-    }
-
-    private void showMsg(String h,String m){
-        Alert a = new Alert(Alert.AlertType.INFORMATION);
-        a.setHeaderText(h); a.setContentText(m); a.initOwner(stage); a.showAndWait();
     }
 }
