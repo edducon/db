@@ -1,3 +1,4 @@
+// src/main/java/org/db/kursovoi/model/Tour.java
 package org.db.kursovoi.model;
 
 import java.time.LocalDate;
@@ -15,23 +16,24 @@ public class Tour {
     private final int       discountPercent;
 
     public Tour(int id, int clientId, int hotelId, double cost,
-                int duration, LocalDate depart, LocalDate sale, int disc) {
-        this.id       = id;
-        this.clientId = clientId;
-        this.hotelId  = hotelId;
-        this.cost     = cost;
-        this.duration = duration;
-        this.departureDate = depart;
-        this.saleDate      = sale;
-        this.discountPercent = disc;
+                int duration, LocalDate departureDate,
+                LocalDate saleDate, int discountPercent) {
+        this.id              = id;
+        this.clientId        = clientId;
+        this.hotelId         = hotelId;
+        this.cost            = cost;
+        this.duration        = duration;
+        this.departureDate   = departureDate;
+        this.saleDate        = saleDate;
+        this.discountPercent = discountPercent;
     }
 
-    public int       getId()            { return id; }
-    public int       getClientId()      { return clientId; }
-    public int       getHotelId()       { return hotelId; }
-    public double    getCost()          { return cost; }
-    public int       getDuration()      { return duration; }
-    public LocalDate getDepartureDate() { return departureDate; }
-    public LocalDate getSaleDate()      { return saleDate; }
-    public int       getDiscountPercent(){ return discountPercent; }
+    public int       getId()              { return id; }
+    public int       getClientId()        { return clientId; }
+    public int       getHotelId()         { return hotelId; }
+    public double    getCost()            { return cost; }
+    public int       getDuration()        { return duration; }
+    public LocalDate getDepartureDate()   { return departureDate; }
+    public LocalDate getSaleDate()        { return saleDate; }
+    public int       getDiscountPercent() { return discountPercent; }
 }

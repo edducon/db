@@ -1,119 +1,106 @@
+// src/main/java/org/db/kursovoi/controller/UserController.java
 package org.db.kursovoi.controller;
 
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import org.db.kursovoi.model.*;
-import org.db.kursovoi.view.CartView;
-import org.db.kursovoi.view.ProfileView;
+
+import org.db.kursovoi.model.Cart;
+import org.db.kursovoi.model.CartItem;
+import org.db.kursovoi.model.Countries;
+import org.db.kursovoi.model.Hotels;
+import org.db.kursovoi.model.Tours;
+import org.db.kursovoi.model.User;
 import org.db.kursovoi.view.UserView;
 
 import java.time.LocalDate;
-import java.util.Iterator;
-import java.util.List;
 
+/**
+ * Логика главного пользовательского окна
+ */
 public class UserController {
-
     private static UserController CURRENT;
-    public  static UserController getCurrent() { return CURRENT; }
+    public static UserController getCurrent() { return CURRENT; }
 
-    private final Stage    stage;
+    private final Stage stage;
     private final UserView view;
-    private final User     user;
-    private final Cart     cart = new Cart();
-    private String         preferredCountry;
+    private final User user;
+    private final Cart cart = new Cart();
+    private       String prefCountry;
 
-    public UserController(Stage s, UserView v, User u, String pref) {
-        this.stage = s; this.view = v; this.user = u; this.preferredCountry = pref;
+    public UserController(Stage stage, UserView view, User user, String pref) {
+        this.stage       = stage;
+        this.view        = view;
+        this.user        = user;
+        this.prefCountry = pref;
         CURRENT = this;
 
-        view.getHomeButton()   .setOnAction(new HomeHandler());
-        view.getRefreshButton().setOnAction(new RefreshHandler());
-        view.getProfileButton().setOnAction(new ProfileHandler());
-        view.getCartButton()   .setOnAction(new CartHandler());
+        view.getHomeButton()   .setOnAction(e -> reload());
+        view.getRefreshButton().setOnAction(e -> reload());
+        view.getProfileButton().setOnAction(e ->
+                new ProfileController(stage, new org.db.kursovoi.view.ProfileView(), user, prefCountry)
+        );
+        view.getCartButton().setOnAction(e ->
+                new CartController(stage, cart, user)
+        );
 
-        loadCatalog();
+        reload();
     }
 
-    public void setPreferredCountry(String c) { preferredCountry = c; }
-    public void reload() { loadCatalog(); }
+    public void setPreferredCountry(String c) { prefCountry = c; }
+    public void reload()                     { loadCatalog(); }
 
     private void loadCatalog() {
-        VBox box = view.getCatalogBox();
+        var box = view.getCatalogBox();
         box.getChildren().clear();
 
-        Countries ct = Countries.get();
-        Hotels    ht = Hotels.get();
+        if (prefCountry != null) addCountryBlock(prefCountry, box);
 
-        if (preferredCountry != null)
-            addCountryBlock(box, preferredCountry, ct, ht);
-
-        List<Country> all = ct.getAll();
-        for (Iterator<Country> it = all.iterator(); it.hasNext();) {
-            Country c = it.next();
-            if (preferredCountry == null || !c.getName().equals(preferredCountry))
-                addCountryBlock(box, c.getName(), ct, ht);
-        }
-    }
-
-    private void addCountryBlock(VBox box, String cn,
-                                 Countries ct, Hotels ht) {
-
-        String climate = "?";
-        for (Iterator<Country> it = ct.getAll().iterator(); it.hasNext();) {
-            Country c = it.next();
-            if (c.getName().equals(cn)) { climate = c.getClimateFeatures(); break; }
-        }
-        box.getChildren().add(new Label("--- " + cn + " (климат: " + climate + ") ---"));
-
-        List<Hotel> hotels = ht.findByCountry(cn);
-        for (Iterator<Hotel> it = hotels.iterator(); it.hasNext();) {
-            Hotel h = it.next();
-            Label  lbl = new Label(h.getName() + " (" + h.getStars() + "★)");
-            Button add = new Button("В корзину");
-
-            add.setOnAction(new AddToCartHandler(h));
-            box.getChildren().add(new HBox(10, lbl, add));
-        }
-    }
-
-    private final class HomeHandler implements EventHandler<ActionEvent> {
-        public void handle(ActionEvent e) { loadCatalog(); }
-    }
-    private final class RefreshHandler implements EventHandler<ActionEvent> {
-        public void handle(ActionEvent e) { loadCatalog(); }
-    }
-    private final class ProfileHandler implements EventHandler<ActionEvent> {
-        public void handle(ActionEvent e) {
-            ProfileView pv = new ProfileView();
-            new ProfileController(stage, pv, user, preferredCountry);
-        }
-    }
-    private final class CartHandler implements EventHandler<ActionEvent> {
-        public void handle(ActionEvent e) {
-            CartView cv = new CartView(cart);
-            new CartController(stage, cv, cart, user);
-        }
-    }
-
-    private static final class AddToCartHandler implements EventHandler<ActionEvent> {
-        private final Hotel hotel;
-        AddToCartHandler(Hotel h){ this.hotel = h; }
-        public void handle(ActionEvent e) {
-            ChoiceDialog<Integer> cd = new ChoiceDialog<Integer>(1, new Integer[]{1,2,4});
-            cd.setHeaderText("Выберите длительность путевки");
-            java.util.Optional<Integer> res = cd.showAndWait();
-            if (res.isPresent()){
-                int w = res.get().intValue();
-                double cost = hotel.getStars()*w*100;
-                UserController.getCurrent().cart.add(new CartItem(
-                        hotel.getId(), hotel.getCountryName(), hotel.getName(),
-                        cost, w, LocalDate.now().plusWeeks(1)));
+        try (var rs = Countries.get().selectAll()) {
+            while (rs.next()) {
+                String cn = rs.getString("country_name");
+                if (prefCountry == null || !cn.equals(prefCountry))
+                    addCountryBlock(cn, box);
             }
-        }
+        } catch (Exception e) { e.printStackTrace(); }
+    }
+
+    private void addCountryBlock(String cn, javafx.scene.layout.VBox box) {
+        String clim = "?";
+        try (var rs = Countries.get().selectByName(cn)) {
+            if (rs.next()) clim = rs.getString("climate_features");
+        } catch (Exception e) { e.printStackTrace(); }
+
+        box.getChildren().add(new javafx.scene.control.Label(
+                "=== "+cn+" (климат: "+clim+") ==="
+        ));
+
+        try (var rs = Hotels.get().selectByCountry(cn)) {
+            while (rs.next()) {
+                int hotelId = rs.getInt("hotel_id");
+                String name = rs.getString("hotel_name");
+                int stars   = rs.getInt("class");
+
+                var lbl = new javafx.scene.control.Label(name + " ("+stars+"★)");
+                var add = new Button("В корзину");
+                add.setOnAction(ev -> {
+                    var dialog = new ChoiceDialog<>(1, 1,2,4);
+                    dialog.setHeaderText("Длительность (нед.)");
+                    dialog.showAndWait().ifPresent(w -> {
+                        double cost = stars * w * 100.0;
+                        cart.add(new CartItem(
+                                hotelId, cn, name,
+                                cost, w,
+                                LocalDate.now().plusWeeks(1)
+                        ));
+                    });
+                });
+
+                box.getChildren().add(new HBox(10, lbl, add));
+            }
+        } catch (Exception e) { e.printStackTrace(); }
     }
 }

@@ -1,45 +1,56 @@
+// src/main/java/org/db/kursovoi/view/UserView.java
 package org.db.kursovoi.view;
 
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
+/**
+ * View: главное окно пользователя (каталог туров).
+ */
 public class UserView {
 
-    private final Button homeBtn    = new Button("Главная");
-    private final Button profileBtn = new Button("Личный кабинет");
-    private final Button cartBtn    = new Button("Корзина");
-    private final Button adminBtn   = new Button("Админ-панель");
-    private final Button logoutBtn  = new Button("Выйти");
-    private final Button refreshBtn = new Button("Обновить");
+    private final Button homeButton    = new Button("Главная");
+    private final Button profileButton = new Button("Личный кабинет");
+    private final Button cartButton    = new Button("Корзина");
+    private final Button adminButton   = new Button("Админ-панель");
+    private final Button logoutButton  = new Button("Выйти");
+    private final Button refreshButton = new Button("Обновить");
 
     private final VBox       catalogBox = new VBox(10);
-    private final ScrollPane scroll     = new ScrollPane(catalogBox);
+    private final ScrollPane scrollPane = new ScrollPane(catalogBox);
     private final BorderPane root       = new BorderPane();
 
     public UserView() {
-        HBox top = new HBox(10, homeBtn, profileBtn, cartBtn, adminBtn, logoutBtn);
+        HBox top = new HBox(10,
+                homeButton,
+                profileButton,
+                cartButton,
+                adminButton,
+                logoutButton
+        );
         top.setPadding(new Insets(10));
 
-        scroll.setFitToWidth(true);
+        scrollPane.setFitToWidth(true);
 
         root.setTop(top);
-        root.setCenter(scroll);
-        root.setBottom(refreshBtn);
+        root.setCenter(scrollPane);
+        root.setBottom(refreshButton);
         root.setPrefSize(650, 500);
 
-        adminBtn.setVisible(false);
+        adminButton.setVisible(false);
     }
 
-    public Parent getRoot()         { return root; }
-    public VBox   getCatalogBox()   { return catalogBox; }
-    public Button getHomeButton()   { return homeBtn; }
-    public Button getProfileButton(){ return profileBtn; }
-    public Button getCartButton()   { return cartBtn; }
-    public Button getAdminButton()  { return adminBtn; }
-    public Button getLogoutButton() { return logoutBtn; }
-    public Button getRefreshButton(){ return refreshBtn; }
+    public Parent getRoot()            { return root; }
+    public VBox   getCatalogBox()      { return catalogBox; }
+    public Button getHomeButton()      { return homeButton; }
+    public Button getProfileButton()   { return profileButton; }
+    public Button getCartButton()      { return cartButton; }
+    public Button getAdminButton()     { return adminButton; }
+    public Button getLogoutButton()    { return logoutButton; }
+    public Button getRefreshButton()   { return refreshButton; }
 }

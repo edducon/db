@@ -1,105 +1,119 @@
+// src/main/java/org/db/kursovoi/controller/ProfileController.java
 package org.db.kursovoi.controller;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.stage.Stage;
-import org.db.kursovoi.model.*;
+import org.db.kursovoi.model.Client;
+import org.db.kursovoi.model.Clients;
+import org.db.kursovoi.model.Countries;
+import org.db.kursovoi.model.Preferences;
+import org.db.kursovoi.model.Tours;
+import org.db.kursovoi.model.User;
+import org.db.kursovoi.model.Users;
 import org.db.kursovoi.view.ProfileView;
 
-import java.util.Iterator;
-import java.util.List;
+import java.sql.SQLException;
 
+/**
+ * Логика экрана профиля пользователя
+ */
 public class ProfileController {
-
+    private final Stage win   = new Stage();
     private final ProfileView view;
-    private final User        user;
-    private final Stage       window = new Stage();
-    private String            initialCountry;
+    private final User user;
+    private final String prefCountry;
 
     public ProfileController(Stage owner, ProfileView v, User u, String pref) {
-        this.view = v; this.user = u; this.initialCountry = pref;
+        view = v; user = u; prefCountry = pref;
 
-        List<Country> list = Countries.get().getAll();
-        for (Iterator<Country> it = list.iterator(); it.hasNext();) {
-            view.getCountryBox().getItems().add(it.next().getName());
-        }
-
+        fillCountryBox();
         loadData();
 
-        view.getSaveButton().setOnAction(new SaveHandler());
-        view.getHomeButton().setOnAction(new HomeHandler());
+        view.getSaveButton().setOnAction(new Save());
+        view.getHomeButton().setOnAction(e -> win.close());
 
-        window.initOwner(owner);
-        window.setScene(new Scene(view.getRoot()));
-        window.setTitle("Личный кабинет");
-        window.show();
+        win.initOwner(owner);
+        win.setScene(new Scene(view.getRoot()));
+        win.setTitle("Профиль");
+        win.show();
+    }
+
+    private void fillCountryBox() {
+        try (var rs = Countries.get().selectAll()) {
+            while (rs.next())
+                view.getCountryBox().getItems()
+                        .add(rs.getString("country_name"));
+        } catch (SQLException e) { e.printStackTrace(); }
     }
 
     private void loadData() {
         Client c = Clients.get().find(user.getClientId());
 
-        view.getUsername()  .setText(user.getUsername());
-        view.getPassword()  .clear();
-        view.getLastName()  .setText(c.getLastName());
-        view.getFirstName() .setText(c.getFirstName());
+        view.getUsername() .setText(user.getUsername());
+        view.getPassword() .clear();
+        view.getLastName() .setText(c.getLastName());
+        view.getFirstName().setText(c.getFirstName());
         view.getPatronymic().setText(c.getPatronymic());
-        view.getAddress()   .setText(c.getAddress());
-        view.getPhone()     .setText(c.getPhone());
-        view.getCountryBox().setValue(initialCountry);
+        view.getAddress()  .setText(c.getAddress());
+        view.getPhone()    .setText(c.getPhone());
+        view.getCountryBox().setValue(prefCountry);
 
         view.getOrdersList().getItems().clear();
-        for (Iterator<Tour> it = Tours.get().getAll().iterator(); it.hasNext();) {
-            Tour t = it.next();
-            if (t.getClientId() == user.getClientId()) {
+        try (var rs = Tours.get().selectByClient(user.getClientId())) {
+            while (rs.next()) {
                 view.getOrdersList().getItems().add(
-                        "Путевка " + t.getId() + " | Отель " + t.getHotelId() +
-                                " | " + t.getCost() +"руб." + " | " + t.getDepartureDate());
+                        "Тур " + rs.getInt("tour_id") +
+                                " | отель " + rs.getInt("hotel_id") +
+                                " | "      + rs.getDouble("cost") + " руб." +
+                                " | "      + rs.getDate("departure_date")
+                );
             }
-        }
+        } catch (SQLException e){ e.printStackTrace(); }
     }
 
-    private final class SaveHandler implements EventHandler<ActionEvent> {
+    private class Save implements EventHandler<ActionEvent> {
+        @Override
         public void handle(ActionEvent e) {
-            String newUser = view.getUsername().getText().trim();
-            if (!newUser.isEmpty() && !newUser.equals(user.getUsername())) {
-                if (Users.get().exists(newUser)) {
-                    showAlert("Ошибка", "Логин занят"); return;
+            String newU = view.getUsername().getText().trim();
+            if (!newU.isEmpty() && !newU.equals(user.getUsername())) {
+                if (Users.get().exists(newU)) {
+                    alert("Ошибка","Логин занят"); return;
                 }
-                Users.get().updateUsername(user.getId(), newUser);
+                Users.get().updateUsername(user.getId(),newU);
             }
-            String newPass = view.getPassword().getText().trim();
-            if (!newPass.isEmpty()) {
-                Users.get().updatePassword(user.getId(), newPass);
-            }
+
+            String newP = view.getPassword().getText().trim();
+            if (!newP.isEmpty())
+                Users.get().updatePassword(user.getId(),newP);
+
             Clients.get().update(user.getClientId(),
-                    view.getLastName().getText().trim(),
+                    view.getLastName() .getText().trim(),
                     view.getFirstName().getText().trim(),
                     view.getPatronymic().getText().trim(),
-                    view.getAddress().getText().trim(),
-                    view.getPhone().getText().trim());
+                    view.getAddress()  .getText().trim(),
+                    view.getPhone()    .getText().trim());
 
             String c = view.getCountryBox().getValue();
             if (c != null) {
                 Preferences.INSTANCE.setPreferredCountry(user.getClientId(), c);
                 UserController uc = UserController.getCurrent();
                 uc.setPreferredCountry(c);
-                Platform.runLater(new Runnable() { public void run() { uc.reload(); }});
+                Platform.runLater(uc::reload);
             }
 
-            Users.get().refresh(); Clients.get().refresh();
-            showAlert("Успешно", "Данные изменены");
+            alert("OK","Сохранено");
         }
     }
 
-    private final class HomeHandler implements EventHandler<ActionEvent> {
-        public void handle(ActionEvent e) { window.close(); }
-    }
-
-    private void showAlert(String h, String m) {
-        javafx.scene.control.Alert a =
-                new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
-        a.setHeaderText(h); a.setContentText(m); a.initOwner(window); a.showAndWait();
+    private void alert(String header, String content) {
+        Alert a = new Alert(Alert.AlertType.INFORMATION);
+        a.setHeaderText(header);
+        a.setContentText(content);
+        a.initOwner(win);
+        a.showAndWait();
     }
 }

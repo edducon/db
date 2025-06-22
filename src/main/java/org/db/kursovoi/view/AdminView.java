@@ -1,13 +1,15 @@
+// src/main/java/org/db/kursovoi/view/AdminView.java
 package org.db.kursovoi.view;
 
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
 public class AdminView {
-
     public final CountriesView countriesView = new CountriesView();
     public final HotelsView    hotelsView    = new HotelsView();
     public final ClientsView   clientsView   = new ClientsView();
@@ -19,13 +21,12 @@ public class AdminView {
     private final BorderPane root  = new BorderPane();
 
     public AdminView() {
-
         tabs.getTabs().addAll(
-                new Tab("Страны", countriesView.getRoot()),
-                new Tab("Отели",    hotelsView.getRoot()),
-                new Tab("Клиента",   clientsView.getRoot()),
-                new Tab("Туры",     toursView.getRoot()),
-                new Tab("Пользователи",     usersView.getRoot())
+                new Tab("Страны",       countriesView.getRoot()),
+                new Tab("Отели",        hotelsView.getRoot()),
+                new Tab("Клиенты",      clientsView.getRoot()),
+                new Tab("Туры",         toursView.getRoot()),
+                new Tab("Пользователи", usersView.getRoot())
         );
         tabs.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
@@ -37,6 +38,12 @@ public class AdminView {
         root.setPrefSize(900, 600);
     }
 
-    public Parent getRoot()   { return root; }
-    public Button getClose()  { return closeBtn; }
+    public Parent getRoot()               { return root; }
+    public Button getClose()              { return closeBtn; }
+    // Вот эти геттеры мы и добавляем:
+    public CountriesView getCountriesView() { return countriesView; }
+    public HotelsView    getHotelsView()    { return hotelsView;    }
+    public ClientsView   getClientsView()   { return clientsView;   }
+    public ToursView     getToursView()     { return toursView;     }
+    public UsersView     getUsersView()     { return usersView;     }
 }

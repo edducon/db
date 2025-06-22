@@ -14,43 +14,46 @@ public class LoginController {
     private final LoginView view;
 
     public LoginController(Stage s, LoginView v) {
-        this.stage = s; this.view = v;
+        stage = s;
+        view  = v;
 
         view.getLoginButton()   .setOnAction(new LoginHandler());
-        view.getRegisterButton().setOnAction(new RegisterHandler());
+        view.getToRegisterButton().setOnAction(new SwitchToReg());   // ← исправленный вызов
     }
 
+    /* ---------- handlers ---------- */
     private final class LoginHandler implements EventHandler<ActionEvent> {
         public void handle(ActionEvent e) {
+
             String u = view.getUsernameField().getText().trim();
             String p = view.getPasswordField().getText().trim();
 
             User user = Users.get().auth(u, p);
-
-            UserView uv = new UserView();
-            stage.setScene(new Scene(uv.getRoot()));
-            stage.setTitle("Главная страница");
-
-            uv.getLogoutButton().setOnAction(new EventHandler<ActionEvent>() {
-                public void handle(ActionEvent ev) { backToLogin(); }
-            });
-
-            if ("ADMIN".equals(user.getRole())) {
-                uv.getAdminButton().setVisible(true);
-                uv.getAdminButton().setOnAction(new EventHandler<ActionEvent>() {
-                    public void handle(ActionEvent ev) {
-                        AdminView av = new AdminView();
-                        new AdminController(stage, av);
-                    }
-                });
+            if (user == null) {
+                warn("Ошибка", "Неверный логин или пароль");
+                view.getPasswordField().clear();
+                return;
             }
 
-            String pref = Preferences.INSTANCE.getPreferredCountry(user.getClientId());
-            new UserController(stage, uv, user, pref);
+            UserView main = new UserView();
+            stage.setScene(new Scene(main.getRoot()));
+            stage.setTitle("Каталог туров");
+
+            main.getLogoutButton().setOnAction(new BackToLogin());
+
+            if ("ADMIN".equals(user.getRole())) {
+                main.getAdminButton().setVisible(true);
+                main.getAdminButton().setOnAction(new OpenAdmin()); // ← вызов без второго аргумента
+            }
+
+            String pref = Preferences.INSTANCE
+                    .getPreferredCountry(user.getClientId());
+
+            new UserController(stage, main, user, pref);
         }
     }
 
-    private final class RegisterHandler implements EventHandler<ActionEvent> {
+    private final class SwitchToReg implements EventHandler<ActionEvent> {
         public void handle(ActionEvent e) {
             RegistrationView rv = new RegistrationView();
             new RegistrationController(stage, rv);
@@ -59,10 +62,27 @@ public class LoginController {
         }
     }
 
-    private void backToLogin() {
-        LoginView lv = new LoginView();
-        new LoginController(stage, lv);
-        stage.setScene(new Scene(lv.getRoot()));
-        stage.setTitle("Приложение для бронирования туров | Вход в систему");
+    private final class BackToLogin implements EventHandler<ActionEvent> {
+        public void handle(ActionEvent e) {
+            LoginView lv = new LoginView();
+            new LoginController(stage, lv);
+            stage.setScene(new Scene(lv.getRoot()));
+            stage.setTitle("Вход");
+        }
+    }
+
+    private final class OpenAdmin implements EventHandler<ActionEvent> {
+        public void handle(ActionEvent e) {
+            AdminView av = new AdminView();
+            new AdminController(stage, av);    // конструктор с одним аргументом
+        }
+    }
+
+    private void warn(String h, String m) {
+        Alert a = new Alert(Alert.AlertType.WARNING);
+        a.setHeaderText(h);
+        a.setContentText(m);
+        a.initOwner(stage);
+        a.showAndWait();
     }
 }

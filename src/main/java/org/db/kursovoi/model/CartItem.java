@@ -1,3 +1,4 @@
+// src/main/java/org/db/kursovoi/model/CartItem.java
 package org.db.kursovoi.model;
 
 import java.time.LocalDate;
@@ -14,10 +15,10 @@ public class CartItem {
 
     public CartItem(int hid, String country, String hotel,
                     double cost, int weeks, LocalDate depart) {
-        this.hotelId = hid;
-        this.countryName = country;
-        this.hotelName = hotel;
-        this.cost = cost;
+        this.hotelId       = hid;
+        this.countryName   = country;
+        this.hotelName     = hotel;
+        this.cost          = cost;
         this.durationWeeks = weeks;
         this.departureDate = depart;
     }

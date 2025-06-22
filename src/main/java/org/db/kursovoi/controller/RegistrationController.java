@@ -8,26 +8,29 @@ import javafx.stage.Stage;
 import org.db.kursovoi.model.*;
 import org.db.kursovoi.view.*;
 
-import java.util.Iterator;
-
 public class RegistrationController {
 
     private final Stage            stage;
     private final RegistrationView view;
 
     public RegistrationController(Stage s, RegistrationView v) {
-        this.stage = s; this.view = v;
+        stage = s;
+        view  = v;
 
-        view.getRegisterButton().setOnAction(new RegisterHandler());
-        view.getBackButton()    .setOnAction(new BackHandler());
+        view.getRegisterButton().setOnAction(new Register());
+        view.getBackButton()    .setOnAction(new Back());
 
-        for (Iterator<Country> it = Countries.get().getAll().iterator(); it.hasNext();) {
-            view.getCountryBox().getItems().add(it.next().getName());
-        }
+        view.getCountryBox().getItems().clear();
+        try (java.sql.ResultSet rs = Countries.get().selectAll()) {
+            while (rs.next())
+                view.getCountryBox().getItems().add(rs.getString("country_name"));
+        } catch (java.sql.SQLException ex) { ex.printStackTrace(); }
     }
 
-    private final class RegisterHandler implements EventHandler<ActionEvent> {
-        public void handle(ActionEvent e) {
+    /* ------ handlers ------ */
+    private final class Register implements EventHandler<ActionEvent>{
+        public void handle(ActionEvent e){
+
             String u  = view.getUsernameField().getText().trim();
             String pw = view.getPasswordField().getText().trim();
             String ln = view.getLastNameField().getText().trim();
@@ -37,19 +40,34 @@ public class RegistrationController {
             String ph = view.getPhoneField().getText().trim();
             String cn = view.getCountryBox().getValue();
 
-            int cid = Clients.get().insert(ln, fn, pt, ad, ph);
-            Preferences.INSTANCE.setPreferredCountry(cid, cn);
-            Users.get().insert(u, pw, cid, "USER");
+            if (u.isEmpty()||pw.isEmpty()||ln.isEmpty()
+                    ||fn.isEmpty()||ad.isEmpty()||ph.isEmpty()||cn==null){
+                alert("Ошибка","Заполните все поля.");
+                return;
+            }
+            if (Users.get().exists(u)){
+                alert("Ошибка","Логин занят."); return;
+            }
 
-            new BackHandler().handle(null);
+            int cid = Clients.get().insert(ln,fn,pt,ad,ph);
+            Preferences.INSTANCE.setPreferredCountry(cid,cn);
+            Users.get().insert(u,pw,cid,"USER");
+
+            alert("OK","Вы зарегистрированы");
+            new Back().handle(null);
+        }
+    }
+    private final class Back implements EventHandler<ActionEvent>{
+        public void handle(ActionEvent e){
+            LoginView lv = new LoginView();
+            new LoginController(stage,lv);
+            stage.setScene(new Scene(lv.getRoot()));
+            stage.setTitle("Вход");
         }
     }
 
-    private final class BackHandler implements EventHandler<ActionEvent> {
-        public void handle(ActionEvent e) {
-            LoginView lv = new LoginView();
-            new LoginController(stage, lv);
-            stage.setScene(new Scene(lv.getRoot()));
-        }
+    private void alert(String h,String m){
+        Alert a=new Alert(Alert.AlertType.INFORMATION);
+        a.setHeaderText(h);a.setContentText(m);a.initOwner(stage);a.showAndWait();
     }
 }

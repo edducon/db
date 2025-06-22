@@ -1,3 +1,4 @@
+// src/main/java/org/db/kursovoi/model/Country.java
 package org.db.kursovoi.model;
 
 /** Одна запись таблицы countries */
