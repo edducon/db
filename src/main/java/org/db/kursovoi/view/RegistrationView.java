@@ -27,7 +27,7 @@ public class RegistrationView {
         lastName  .setPromptText("Фамилия");
         firstName .setPromptText("Имя");
         patronymic.setPromptText("Отчество");
-        address   .setPromptText("Адресс");
+        address   .setPromptText("Адрес");
         phone     .setPromptText("Телефон");
         countryBox.setPromptText("Предпочитаемая страна");
 
