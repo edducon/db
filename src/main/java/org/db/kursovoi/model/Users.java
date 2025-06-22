@@ -20,13 +20,11 @@ public final class Users extends java.util.Observable {
         setChanged(); notifyObservers();
     }
 
-    /* ---------- util ---------- */
     public boolean exists(String username){
         for (User u : cache) if (u.getUsername().equals(username)) return true;
         return false;
     }
 
-    /* ---------- auth ---------- */
     public User auth(String u,String p){
         String sql = "SELECT user_id,username,role,client_id FROM users WHERE username=? AND password=?";
         try (Connection cn = Database.get();
@@ -46,7 +44,6 @@ public final class Users extends java.util.Observable {
         return null;
     }
 
-    /* ---------- CRUD ---------- */
     public void insert(String un,String pw,int cid,String role){
         String sql="INSERT INTO users(username,password,role,client_id) VALUES(?,?,?,?)";
         try(Connection cn=Database.get();
@@ -91,7 +88,6 @@ public final class Users extends java.util.Observable {
         setChanged(); notifyObservers();
     }
 
-    /* ---------- load cache ---------- */
     private void loadAll(){
         String sql = "SELECT user_id,username,role,client_id FROM users";
         try(Connection cn=Database.get();

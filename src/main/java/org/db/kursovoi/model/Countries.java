@@ -3,10 +3,8 @@ package org.db.kursovoi.model;
 import java.sql.*;
 import java.util.*;
 
-/** Контейнер-Singleton + Observable для таблицы countries */
 public final class Countries extends Observable {
 
-    /* ---------- Singleton ---------- */
     private static Countries INSTANCE;
     private Countries() { loadAll(); }
     public static synchronized Countries get() {
@@ -14,7 +12,6 @@ public final class Countries extends Observable {
         return INSTANCE;
     }
 
-    /* ---------- cache ---------- */
     private final List<Country> cache = new ArrayList<Country>();
     public List<Country> getAll() { return Collections.unmodifiableList(cache); }
 
@@ -23,7 +20,6 @@ public final class Countries extends Observable {
         setChanged(); notifyObservers();
     }
 
-    /* ---------- CRUD ---------- */
     public void insert(String name, String climate) {
         String sql = "INSERT INTO countries(country_name, climate_features) VALUES (?,?)";
         try (Connection cn = Database.get();
@@ -62,7 +58,6 @@ public final class Countries extends Observable {
         setChanged(); notifyObservers();
     }
 
-    /* ---------- load cache ---------- */
     private void loadAll() {
         String sql = "SELECT country_name, climate_features FROM countries";
         try (Connection cn = Database.get();

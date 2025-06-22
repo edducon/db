@@ -46,7 +46,7 @@ public class RegistrationController {
             Preferences.INSTANCE.setPreferredCountry(cid, cn);
             Users.get().insert(u, pw, cid, "USER");
 
-            showMsg("Успешно", "Вы зарегистрованы как " + u);
+            showMsg("Успешно", "Вы зарегистрированы как " + u);
             new BackHandler().handle(null);
         }
     }
