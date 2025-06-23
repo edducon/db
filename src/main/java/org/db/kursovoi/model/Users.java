@@ -117,7 +117,7 @@ public final class Users extends Observable {
         }
     }
 
-    private void draw(GraphicsContext gc) {
+    public void draw(GraphicsContext gc) {
         gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
         gc.fillText("Список пользователей", 10, 20);
         int y = 40;

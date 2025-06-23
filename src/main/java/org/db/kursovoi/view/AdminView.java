@@ -1,4 +1,3 @@
-// src/main/java/org/db/kursovoi/view/AdminView.java
 package org.db.kursovoi.view;
 
 import javafx.geometry.Insets;

@@ -1,4 +1,3 @@
-// src/main/java/org/db/kursovoi/controller/LoginController.java
 package org.db.kursovoi.controller;
 
 import javafx.event.ActionEvent;
@@ -25,7 +24,6 @@ public class LoginController {
 
         view.getLoginButton()    .setOnAction(new LoginHandler());
         view.getToRegisterButton().setOnAction(e -> {
-            // перейти на регистрацию
             RegistrationView rv = new RegistrationView();
             new RegistrationController(stage, rv);
             stage.setScene(new Scene(rv.getRoot()));
@@ -41,7 +39,6 @@ public class LoginController {
 
             User user = model.login(u, p);
             if (user == null) {
-                // TODO: Alert об ошибке
                 return;
             }
 

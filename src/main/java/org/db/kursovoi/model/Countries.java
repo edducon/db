@@ -82,7 +82,7 @@ public final class Countries extends Observable {
     }
 
 
-    private void draw(GraphicsContext gc) {
+    public void draw(GraphicsContext gc) {
         gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
         gc.fillText("Список стран", 10, 20);
         int y = 40;
@@ -98,18 +98,4 @@ public final class Countries extends Observable {
         }
     }
 
-    public void showWindow(Stage owner) {
-        Canvas canvas = new Canvas(600, 400);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFont(javafx.scene.text.Font.font(14));
-
-        draw(gc);
-        this.addObserver((o, arg) -> draw(gc));
-
-        Stage win = new Stage();
-        win.initOwner(owner);
-        win.setTitle("Управление странами");
-        win.setScene(new Scene(new StackPane(canvas)));
-        win.show();
-    }
 }

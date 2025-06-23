@@ -1,12 +1,6 @@
-// src/main/java/org/db/kursovoi/model/Tours.java
 package org.db.kursovoi.model;
 
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -74,7 +68,7 @@ public final class Tours extends Observable {
         }
     }
 
-    private void draw(GraphicsContext gc) {
+    public void draw(GraphicsContext gc) {
         gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
         gc.fillText("Список туров", 10, 20);
         int y = 40;

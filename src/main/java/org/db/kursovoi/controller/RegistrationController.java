@@ -1,4 +1,3 @@
-// src/main/java/org/db/kursovoi/controller/RegistrationController.java
 package org.db.kursovoi.controller;
 
 import javafx.event.ActionEvent;
@@ -21,7 +20,6 @@ public class RegistrationController {
         this.stage = stage;
         this.view  = view;
 
-        // Теперь ComboBox<Country>
         view.getCountryBox().getItems().setAll(model.loadCountries());
 
         view.getRegisterButton().setOnAction(new Register());
@@ -42,10 +40,9 @@ public class RegistrationController {
 
             User user = model.register(u, pw, ln, fn, pt, ad, ph, cn);
             if (user != null) {
-                // Успех — возвращаемся на логин
+
                 new Back().handle(null);
             } else {
-                // TODO: показать Alert об ошибке
             }
         }
     }

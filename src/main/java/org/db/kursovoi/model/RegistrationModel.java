@@ -1,4 +1,3 @@
-// src/main/java/org/db/kursovoi/model/RegistrationModel.java
 package org.db.kursovoi.model;
 
 import java.sql.ResultSet;
@@ -7,7 +6,6 @@ import java.util.List;
 
 public class RegistrationModel {
 
-    /** Возвращает список стран как объектов Country */
     public List<Country> loadCountries() {
         List<Country> list = new ArrayList<>();
         try (ResultSet rs = Countries.get().selectAll()) {
@@ -22,7 +20,6 @@ public class RegistrationModel {
         return list;
     }
 
-    /** Делегирует всю логику регистрации */
     public User register(String username,
                          String password,
                          String lastName,

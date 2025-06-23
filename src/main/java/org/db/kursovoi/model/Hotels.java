@@ -1,11 +1,6 @@
-// src/main/java/org/db/kursovoi/model/Hotels.java
 package org.db.kursovoi.model;
 
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,10 +8,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Observable;
 
-/**
- * Singleton-модель "Hotels".
- * Методы insert/update/delete шлют notifyObservers(), плюс рисует своё окно.
- */
 public final class Hotels extends Observable {
     private static Hotels INSTANCE;
     private Hotels() { }
@@ -88,7 +79,7 @@ public final class Hotels extends Observable {
     }
 
 
-    private void draw(GraphicsContext gc) {
+    public void draw(GraphicsContext gc) {
         gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
         gc.fillText("Список отелей", 10, 20);
         int y = 40;
