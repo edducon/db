@@ -20,11 +20,11 @@ public class HotelsView {
     public HotelsView() {
         TableColumn<Hotel,Integer> idCol  = new TableColumn<>("ID");
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-        TableColumn<Hotel,String> cnCol   = new TableColumn<>("Country");
+        TableColumn<Hotel,String> cnCol   = new TableColumn<>("Страна");
         cnCol.setCellValueFactory(new PropertyValueFactory<>("countryName"));
-        TableColumn<Hotel,Integer> stCol  = new TableColumn<>("★");
+        TableColumn<Hotel,Integer> stCol  = new TableColumn<>("Класс");
         stCol.setCellValueFactory(new PropertyValueFactory<>("stars"));
-        TableColumn<Hotel,String> nmCol   = new TableColumn<>("Name");
+        TableColumn<Hotel,String> nmCol   = new TableColumn<>("Название отеля");
         nmCol.setCellValueFactory(new PropertyValueFactory<>("name"));
 
         table.getColumns().addAll(idCol, cnCol, stCol, nmCol);

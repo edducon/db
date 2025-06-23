@@ -1,7 +1,6 @@
 package org.db.kursovoi.model;
 
 public class Country {
-
     private final String name;
     private final String climateFeatures;
 

@@ -15,7 +15,6 @@ public class RegistrationView {
     private final TextField        patronymicField  = new TextField();
     private final TextField        addressField     = new TextField();
     private final TextField        phoneField       = new TextField();
-    // теперь ComboBox<Country>
     private final ComboBox<Country> countryBox      = new ComboBox<>();
     private final Button           registerButton   = new Button("Зарегистрироваться");
     private final Button           backButton       = new Button("Назад");

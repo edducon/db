@@ -1,7 +1,6 @@
 package org.db.kursovoi.model;
 
 public class Client {
-
     private final int    id;
     private final String lastName;
     private final String firstName;

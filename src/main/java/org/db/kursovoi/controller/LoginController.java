@@ -58,7 +58,7 @@ public class LoginController {
                 main.getAdminButton().setVisible(true);
                 main.getAdminButton().setOnAction(ev -> {
                     AdminView av = new AdminView();
-                    new AdminController(stage, av);
+                    new AdminController(stage);
                 });
             }
 

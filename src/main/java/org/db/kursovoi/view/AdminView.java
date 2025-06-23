@@ -9,23 +9,23 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 
 public class AdminView {
-    public final CountriesView countriesView = new CountriesView();
-    public final HotelsView    hotelsView    = new HotelsView();
-    public final ClientsView   clientsView   = new ClientsView();
-    public final ToursView     toursView     = new ToursView();
-    public final UsersView     usersView     = new UsersView();
+    public final CountriesView        countriesView        = new CountriesView();
+    public final HotelsView           hotelsView           = new HotelsView();
+    public final ClientsView          clientsView          = new ClientsView();
+    public final ClientsCountriesView clientsCountriesView = new ClientsCountriesView();
+    public final ToursView            toursView            = new ToursView();
 
-    private final TabPane tabs = new TabPane();
-    private final Button  closeBtn = new Button("Закрыть");
-    private final BorderPane root  = new BorderPane();
+    private final TabPane   tabs     = new TabPane();
+    private final Button    closeBtn = new Button("Закрыть");
+    private final BorderPane root    = new BorderPane();
 
     public AdminView() {
         tabs.getTabs().addAll(
-                new Tab("Страны",       countriesView.getRoot()),
-                new Tab("Отели",        hotelsView.getRoot()),
-                new Tab("Клиенты",      clientsView.getRoot()),
-                new Tab("Туры",         toursView.getRoot()),
-                new Tab("Пользователи", usersView.getRoot())
+                new Tab("Страны",          countriesView.getRoot()),
+                new Tab("Отели",           hotelsView.getRoot()),
+                new Tab("Клиенты",         clientsView.getRoot()),
+                new Tab("Клиенты–Страны",  clientsCountriesView.getRoot()),
+                new Tab("Путевки",            toursView.getRoot())
         );
         tabs.setTabClosingPolicy(TabPane.TabClosingPolicy.UNAVAILABLE);
 
@@ -37,13 +37,12 @@ public class AdminView {
         root.setPrefSize(900, 600);
     }
 
-    public Parent getRoot()               { return root; }
-    public Button getClose()              { return closeBtn; }
+    public Parent getRoot()   { return root; }
+    public Button  getClose() { return closeBtn; }
 
-
-    public CountriesView getCountriesView() { return countriesView; }
-    public HotelsView    getHotelsView()    { return hotelsView;    }
-    public ClientsView   getClientsView()   { return clientsView;   }
-    public ToursView     getToursView()     { return toursView;     }
-    public UsersView     getUsersView()     { return usersView;     }
+    public CountriesView        getCountriesView()        { return countriesView; }
+    public HotelsView           getHotelsView()           { return hotelsView;    }
+    public ClientsView          getClientsView()          { return clientsView;   }
+    public ClientsCountriesView getClientsCountriesView() { return clientsCountriesView; }
+    public ToursView            getToursView()            { return toursView;     }
 }

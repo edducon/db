@@ -1,7 +1,5 @@
 package org.db.kursovoi.model;
 
-import javafx.scene.canvas.GraphicsContext;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -73,25 +71,6 @@ public final class Hotels extends Observable {
             ps.setInt(1, id);
             ps.executeUpdate();
             setChanged(); notifyObservers();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public void draw(GraphicsContext gc) {
-        gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
-        gc.fillText("Список отелей", 10, 20);
-        int y = 40;
-        try (ResultSet rs = selectAll()) {
-            while (rs.next()) {
-                String line = rs.getInt("hotel_id") + ": "
-                        + rs.getString("country_name") + ", "
-                        + rs.getInt("class") + "★, "
-                        + rs.getString("hotel_name");
-                gc.fillText(line, 10, y);
-                y += 20;
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         }

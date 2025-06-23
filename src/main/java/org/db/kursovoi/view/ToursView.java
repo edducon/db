@@ -16,23 +16,42 @@ public class ToursView {
     private final VBox            root;
 
     public ToursView() {
-        TableColumn<Tour,Integer> idCol   = new TableColumn<>("ID");
+        // ID
+        TableColumn<Tour,Integer> idCol = new TableColumn<>("ID");
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-        TableColumn<Tour,Integer> clCol   = new TableColumn<>("Client");
+        // Client
+        TableColumn<Tour,Integer> clCol = new TableColumn<>("Client ID");
         clCol.setCellValueFactory(new PropertyValueFactory<>("clientId"));
-        TableColumn<Tour,Integer> htCol   = new TableColumn<>("Hotel");
+        // Hotel
+        TableColumn<Tour,Integer> htCol = new TableColumn<>("Hotel ID");
         htCol.setCellValueFactory(new PropertyValueFactory<>("hotelId"));
-        TableColumn<Tour,Double>  costCol = new TableColumn<>("Cost");
+        // Cost
+        TableColumn<Tour,Double> costCol = new TableColumn<>("Цена");
         costCol.setCellValueFactory(new PropertyValueFactory<>("cost"));
+        // Duration
+        TableColumn<Tour,Integer> durCol = new TableColumn<>("Продолжительность");
+        durCol.setCellValueFactory(new PropertyValueFactory<>("duration"));
+        // Departure date
+        TableColumn<Tour,java.time.LocalDate> depCol = new TableColumn<>("Дата отправления");
+        depCol.setCellValueFactory(new PropertyValueFactory<>("departureDate"));
+        // Sale date
+        TableColumn<Tour,java.time.LocalDate> saleCol = new TableColumn<>("Дата продажи");
+        saleCol.setCellValueFactory(new PropertyValueFactory<>("saleDate"));
+        // Discount percent
+        TableColumn<Tour,Integer> discCol = new TableColumn<>("Скидка (%)");
+        discCol.setCellValueFactory(new PropertyValueFactory<>("discountPercent"));
 
-        table.getColumns().addAll(idCol, clCol, htCol, costCol);
+        table.getColumns().addAll(
+                idCol, clCol, htCol, costCol,
+                durCol, depCol, saleCol, discCol
+        );
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         root = new VBox(10, table, delBtn);
         root.setPadding(new Insets(10));
     }
 
-    public Parent getRoot()          { return root; }
-    public TableView<Tour> getTable(){ return table; }
-    public Button getDelete()        { return delBtn; }
+    public Parent getRoot()            { return root; }
+    public TableView<Tour> getTable()  { return table; }
+    public Button getDelete()          { return delBtn; }
 }

@@ -20,14 +20,18 @@ public class ClientsView {
     public ClientsView() {
         TableColumn<Client,Integer> idCol  = new TableColumn<>("ID");
         idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
-        TableColumn<Client,String> lnCol  = new TableColumn<>("Last");
+        TableColumn<Client,String> lnCol  = new TableColumn<>("Фамилия");
         lnCol.setCellValueFactory(new PropertyValueFactory<>("lastName"));
-        TableColumn<Client,String> fnCol  = new TableColumn<>("First");
+        TableColumn<Client,String> fnCol  = new TableColumn<>("Имя");
         fnCol.setCellValueFactory(new PropertyValueFactory<>("firstName"));
-        TableColumn<Client,String> phCol  = new TableColumn<>("Phone");
+        TableColumn<Client,String> ptCol  = new TableColumn<>("Отчество");
+        ptCol.setCellValueFactory(new PropertyValueFactory<>("patronymic"));
+        TableColumn<Client,String> adCol  = new TableColumn<>("Адрес");
+        adCol.setCellValueFactory(new PropertyValueFactory<>("address"));
+        TableColumn<Client,String> phCol  = new TableColumn<>("Телефон");
         phCol.setCellValueFactory(new PropertyValueFactory<>("phone"));
 
-        table.getColumns().addAll(idCol, lnCol, fnCol, phCol);
+        table.getColumns().addAll(idCol, lnCol, fnCol, ptCol, adCol, phCol);
         table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
         VBox.setMargin(table, new Insets(0, 0, 5, 0));
@@ -35,9 +39,9 @@ public class ClientsView {
         root.setPadding(new Insets(10));
     }
 
-    public Parent getRoot()               { return root; }
-    public TableView<Client> getTable()   { return table; }
-    public Button getAdd()                { return addBtn; }
-    public Button getEdit()               { return editBtn; }
-    public Button getDelete()             { return delBtn; }
+    public Parent getRoot()             { return root; }
+    public TableView<Client> getTable() { return table; }
+    public Button getAdd()              { return addBtn; }
+    public Button getEdit()             { return editBtn; }
+    public Button getDelete()           { return delBtn; }
 }

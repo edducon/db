@@ -1,7 +1,6 @@
 package org.db.kursovoi.model;
 
 public class User {
-
     private final int      id;
     private final String   username;
     private final String   role;

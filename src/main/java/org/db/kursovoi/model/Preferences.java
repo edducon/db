@@ -63,6 +63,8 @@ public final class Preferences {
         return list;
     }
 
-    /** DTO для таблицы client_countries */
-    public static record ClientCountry(int clientId, String countryName) {}
+    public static record ClientCountry(int clientId, String countryName) {
+        public int getClientId()       { return clientId; }
+        public String getCountryName() { return countryName; }
+    }
 }

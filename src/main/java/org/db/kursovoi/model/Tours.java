@@ -67,22 +67,4 @@ public final class Tours extends Observable {
             e.printStackTrace();
         }
     }
-
-    public void draw(GraphicsContext gc) {
-        gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
-        gc.fillText("Список туров", 10, 20);
-        int y = 40;
-        try (ResultSet rs = selectAll()) {
-            while (rs.next()) {
-                String line = rs.getInt("tour_id") + ": client "
-                        + rs.getInt("client_id") + ", hotel "
-                        + rs.getInt("hotel_id") + ", cost="
-                        + rs.getDouble("cost");
-                gc.fillText(line, 10, y);
-                y += 20;
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
 }

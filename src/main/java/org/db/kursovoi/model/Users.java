@@ -1,11 +1,5 @@
 package org.db.kursovoi.model;
 
-import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -112,24 +106,6 @@ public final class Users extends Observable {
             ps.setInt(1, id);
             ps.executeUpdate();
             setChanged(); notifyObservers();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void draw(GraphicsContext gc) {
-        gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
-        gc.fillText("Список пользователей", 10, 20);
-        int y = 40;
-        try (ResultSet rs = selectAll()) {
-            while (rs.next()) {
-                String cid = rs.getObject("client_id")==null ? "" : ", client " + rs.getInt("client_id");
-                String line = rs.getInt("user_id") + ": "
-                        + rs.getString("username") + " ("
-                        + rs.getString("role") + cid + ")";
-                gc.fillText(line, 10, y);
-                y += 20;
-            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
