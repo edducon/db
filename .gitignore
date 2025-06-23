@@ -38,3 +38,4 @@ build/
 ### Mac OS ###
 .DS_Store
 >>>>>>> origin/master
+/dependency-reduced-pom.xml
