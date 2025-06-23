@@ -1,4 +1,3 @@
-// src/main/java/org/db/kursovoi/controller/CartController.java
 package org.db.kursovoi.controller;
 
 import javafx.scene.Scene;
@@ -12,9 +11,6 @@ import org.db.kursovoi.view.CartView;
 
 import java.time.LocalDate;
 
-/**
- * Controller корзины: связывает кнопки с моделью и открывает окно.
- */
 public class CartController {
     private final Stage win = new Stage();
 
@@ -29,7 +25,7 @@ public class CartController {
         view.getHomeBtn().setOnAction(e -> win.close());
 
         view.getDeleteBtn().setOnAction(e -> {
-            int idx = cart.getItems().size() - 1; // если нет выбора — можно удалить последний
+            int idx = cart.getItems().size() - 1;
             cart.remove(idx);
         });
 

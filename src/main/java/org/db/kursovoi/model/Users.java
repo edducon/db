@@ -1,4 +1,3 @@
-// src/main/java/org/db/kursovoi/model/Users.java
 package org.db.kursovoi.model;
 
 import javafx.scene.Scene;
@@ -13,10 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Observable;
 
-/**
- * Singleton-модель "Users".
- * CRUD + отрисовка.
- */
 public final class Users extends Observable {
 
     private static Users INSTANCE;
@@ -105,7 +100,6 @@ public final class Users extends Observable {
             ps.setString(1, pw);
             ps.setInt(2, id);
             ps.executeUpdate();
-            // пароль меняется — но не трогаем view-обновление
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -123,11 +117,9 @@ public final class Users extends Observable {
         }
     }
 
-    // ——— рисовалка ———
-
     private void draw(GraphicsContext gc) {
         gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
-        gc.fillText("=== Список пользователей ===", 10, 20);
+        gc.fillText("Список пользователей", 10, 20);
         int y = 40;
         try (ResultSet rs = selectAll()) {
             while (rs.next()) {
@@ -141,19 +133,5 @@ public final class Users extends Observable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public void showWindow(Stage owner) {
-        Canvas canvas = new Canvas(600, 400);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFont(javafx.scene.text.Font.font(14));
-        draw(gc);
-        addObserver((o, arg) -> draw(gc));
-
-        Stage win = new Stage();
-        win.initOwner(owner);
-        win.setTitle("Управление пользователями");
-        win.setScene(new Scene(new StackPane(canvas)));
-        win.show();
     }
 }

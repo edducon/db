@@ -1,7 +1,5 @@
-// src/main/java/org/db/kursovoi/model/Hotel.java
 package org.db.kursovoi.model;
 
-/** Одна запись таблицы hotels */
 public class Hotel {
     private final int    id;
     private final String countryName;

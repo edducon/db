@@ -1,8 +1,5 @@
-// src/main/java/org/db/kursovoi/controller/UserController.java
 package org.db.kursovoi.controller;
 
-import javafx.event.EventHandler;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
 import javafx.scene.layout.HBox;
@@ -12,15 +9,11 @@ import org.db.kursovoi.model.Cart;
 import org.db.kursovoi.model.CartItem;
 import org.db.kursovoi.model.Countries;
 import org.db.kursovoi.model.Hotels;
-import org.db.kursovoi.model.Tours;
 import org.db.kursovoi.model.User;
 import org.db.kursovoi.view.UserView;
 
 import java.time.LocalDate;
 
-/**
- * Логика главного пользовательского окна
- */
 public class UserController {
     private static UserController CURRENT;
     public static UserController getCurrent() { return CURRENT; }
@@ -75,7 +68,7 @@ public class UserController {
         } catch (Exception e) { e.printStackTrace(); }
 
         box.getChildren().add(new javafx.scene.control.Label(
-                "=== "+cn+" (климат: "+clim+") ==="
+                "--- "+cn+" (климат: "+clim+") ---"
         ));
 
         try (var rs = Hotels.get().selectByCountry(cn)) {

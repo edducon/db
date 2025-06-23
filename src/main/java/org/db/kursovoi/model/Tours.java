@@ -13,10 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Observable;
 
-/**
- * Singleton-модель "Tours".
- * Включает CRUD, выборку по клиенту и рисовалку.
- */
+
 public final class Tours extends Observable {
     private static Tours INSTANCE;
     private Tours() { }
@@ -25,7 +22,6 @@ public final class Tours extends Observable {
         return INSTANCE;
     }
 
-    /** Все туры */
     public ResultSet selectAll() throws SQLException {
         Connection cn = Database.get();
         PreparedStatement ps = cn.prepareStatement(
@@ -37,7 +33,6 @@ public final class Tours extends Observable {
         return ps.executeQuery();
     }
 
-    /** Туры конкретного клиента */
     public ResultSet selectByClient(int clientId) throws SQLException {
         Connection cn = Database.get();
         PreparedStatement ps = cn.prepareStatement(
@@ -48,7 +43,6 @@ public final class Tours extends Observable {
         return ps.executeQuery();
     }
 
-    /** Вставка нового тура и уведомление об изменении */
     public void insert(Tour t) {
         String sql = "INSERT INTO tours(client_id,hotel_id,cost,duration,departure_date,sale_date,discount_percent)"
                 + " VALUES(?,?,?,?,?,?,?)";
@@ -68,7 +62,6 @@ public final class Tours extends Observable {
         }
     }
 
-    /** Удаление тура и уведомление об изменении */
     public void delete(int id) {
         String sql = "DELETE FROM tours WHERE tour_id=?";
         try (Connection cn = Database.get();
@@ -81,11 +74,9 @@ public final class Tours extends Observable {
         }
     }
 
-    // ——— рисовалка ———
-
     private void draw(GraphicsContext gc) {
         gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
-        gc.fillText("=== Список туров ===", 10, 20);
+        gc.fillText("Список туров", 10, 20);
         int y = 40;
         try (ResultSet rs = selectAll()) {
             while (rs.next()) {
@@ -99,20 +90,5 @@ public final class Tours extends Observable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    /** Открывает окно с Canvas и перерисовывает его при изменениях */
-    public void showWindow(Stage owner) {
-        Canvas canvas = new Canvas(600, 400);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFont(javafx.scene.text.Font.font(14));
-        draw(gc);
-        addObserver((o, arg) -> draw(gc));
-
-        Stage win = new Stage();
-        win.initOwner(owner);
-        win.setTitle("Управление турами");
-        win.setScene(new Scene(new StackPane(canvas)));
-        win.show();
     }
 }

@@ -87,11 +87,10 @@ public final class Hotels extends Observable {
         }
     }
 
-    // ——— рисовалка ———
 
     private void draw(GraphicsContext gc) {
         gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
-        gc.fillText("=== Список отелей ===", 10, 20);
+        gc.fillText("Список отелей", 10, 20);
         int y = 40;
         try (ResultSet rs = selectAll()) {
             while (rs.next()) {
@@ -105,19 +104,5 @@ public final class Hotels extends Observable {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-
-    public void showWindow(Stage owner) {
-        Canvas canvas = new Canvas(600, 400);
-        GraphicsContext gc = canvas.getGraphicsContext2D();
-        gc.setFont(javafx.scene.text.Font.font(14));
-        draw(gc);
-        addObserver((o, arg) -> draw(gc));
-
-        Stage win = new Stage();
-        win.initOwner(owner);
-        win.setTitle("Управление отелями");
-        win.setScene(new Scene(new StackPane(canvas)));
-        win.show();
     }
 }

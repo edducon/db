@@ -1,7 +1,5 @@
-// src/main/java/org/db/kursovoi/model/Country.java
 package org.db.kursovoi.model;
 
-/** Одна запись таблицы countries */
 public class Country {
 
     private final String name;
@@ -14,4 +12,9 @@ public class Country {
 
     public String getName()            { return name; }
     public String getClimateFeatures() { return climateFeatures; }
+
+    @Override
+    public String toString() {
+        return name + " — " + climateFeatures;
+    }
 }

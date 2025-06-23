@@ -1,4 +1,3 @@
-// src/main/java/org/db/kursovoi/view/ProfileView.java
 package org.db.kursovoi.view;
 
 import javafx.geometry.Insets;
@@ -11,9 +10,6 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 
-/**
- * View: личный кабинет пользователя.
- */
 public class ProfileView {
 
     private final TextField       usernameField   = new TextField();

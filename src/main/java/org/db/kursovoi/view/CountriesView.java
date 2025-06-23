@@ -1,4 +1,3 @@
-// src/main/java/org/db/kursovoi/view/CountriesView.java
 package org.db.kursovoi.view;
 
 import javafx.geometry.Insets;
@@ -7,9 +6,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.VBox;
 
-/**
- * View: простой список стран без TableView.
- */
 public class CountriesView {
     private final ListView<String> list   = new ListView<>();
     private final Button           addBtn = new Button("Добавить");

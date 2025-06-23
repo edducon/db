@@ -1,11 +1,9 @@
-// src/main/java/org/db/kursovoi/controller/ProfileController.java
 package org.db.kursovoi.controller;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.stage.Stage;
 import org.db.kursovoi.model.Client;
 import org.db.kursovoi.model.Clients;
@@ -18,9 +16,7 @@ import org.db.kursovoi.view.ProfileView;
 
 import java.sql.SQLException;
 
-/**
- * Логика экрана профиля пользователя
- */
+
 public class ProfileController {
     private final Stage win   = new Stage();
     private final ProfileView view;
@@ -80,9 +76,6 @@ public class ProfileController {
         public void handle(ActionEvent e) {
             String newU = view.getUsername().getText().trim();
             if (!newU.isEmpty() && !newU.equals(user.getUsername())) {
-                if (Users.get().exists(newU)) {
-                    alert("Ошибка","Логин занят"); return;
-                }
                 Users.get().updateUsername(user.getId(),newU);
             }
 
@@ -96,7 +89,6 @@ public class ProfileController {
                     view.getPatronymic().getText().trim(),
                     view.getAddress()  .getText().trim(),
                     view.getPhone()    .getText().trim());
-
             String c = view.getCountryBox().getValue();
             if (c != null) {
                 Preferences.INSTANCE.setPreferredCountry(user.getClientId(), c);
@@ -104,16 +96,6 @@ public class ProfileController {
                 uc.setPreferredCountry(c);
                 Platform.runLater(uc::reload);
             }
-
-            alert("OK","Сохранено");
         }
-    }
-
-    private void alert(String header, String content) {
-        Alert a = new Alert(Alert.AlertType.INFORMATION);
-        a.setHeaderText(header);
-        a.setContentText(content);
-        a.initOwner(win);
-        a.showAndWait();
     }
 }

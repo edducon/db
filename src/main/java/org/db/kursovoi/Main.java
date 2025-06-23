@@ -9,7 +9,6 @@ import org.db.kursovoi.controller.LoginController;
 public class Main extends Application {
     @Override
     public void start(Stage stage) {
-
         // View
         LoginView view = new LoginView();
 

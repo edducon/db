@@ -1,9 +1,7 @@
-// src/main/java/org/db/kursovoi/model/Tour.java
 package org.db.kursovoi.model;
 
 import java.time.LocalDate;
 
-/** Одна запись таблицы tours */
 public class Tour {
 
     private final int       id;

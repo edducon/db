@@ -1,4 +1,3 @@
-// src/main/java/org/db/kursovoi/view/UserView.java
 package org.db.kursovoi.view;
 
 import javafx.geometry.Insets;
@@ -9,9 +8,6 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
-/**
- * View: главное окно пользователя (каталог туров).
- */
 public class UserView {
 
     private final Button homeButton    = new Button("Главная");

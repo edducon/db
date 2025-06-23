@@ -1,24 +1,25 @@
 // src/main/java/org/db/kursovoi/view/RegistrationView.java
 package org.db.kursovoi.view;
 
-import javafx.collections.FXCollections;
 import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
+import org.db.kursovoi.model.Country;
 
 public class RegistrationView {
-    private final TextField       usernameField    = new TextField();
-    private final PasswordField   passwordField    = new PasswordField();
-    private final TextField       lastNameField    = new TextField();
-    private final TextField       firstNameField   = new TextField();
-    private final TextField       patronymicField  = new TextField();
-    private final TextField       addressField     = new TextField();
-    private final TextField       phoneField       = new TextField();
-    private final ComboBox<String> countryBox      = new ComboBox<>();
-    private final Button          registerButton   = new Button("Зарегистрироваться");
-    private final Button          backButton       = new Button("Назад");
-    private final GridPane        root             = new GridPane();
+    private final TextField        usernameField    = new TextField();
+    private final PasswordField    passwordField    = new PasswordField();
+    private final TextField        lastNameField    = new TextField();
+    private final TextField        firstNameField   = new TextField();
+    private final TextField        patronymicField  = new TextField();
+    private final TextField        addressField     = new TextField();
+    private final TextField        phoneField       = new TextField();
+    // теперь ComboBox<Country>
+    private final ComboBox<Country> countryBox      = new ComboBox<>();
+    private final Button           registerButton   = new Button("Зарегистрироваться");
+    private final Button           backButton       = new Button("Назад");
+    private final GridPane         root             = new GridPane();
 
     public RegistrationView() {
         root.setVgap(10);
@@ -40,15 +41,15 @@ public class RegistrationView {
         countryBox.setPromptText("Выберите страну");
     }
 
-    public Parent            getRoot()             { return root; }
-    public TextField         getUsernameField()    { return usernameField; }
-    public PasswordField     getPasswordField()    { return passwordField; }
-    public TextField         getLastNameField()    { return lastNameField; }
-    public TextField         getFirstNameField()   { return firstNameField; }
-    public TextField         getPatronymicField()  { return patronymicField; }
-    public TextField         getAddressField()     { return addressField; }
-    public TextField         getPhoneField()       { return phoneField; }
-    public ComboBox<String>  getCountryBox()       { return countryBox; }
-    public Button            getRegisterButton()   { return registerButton; }
-    public Button            getBackButton()       { return backButton; }
+    public Parent             getRoot()             { return root; }
+    public TextField          getUsernameField()    { return usernameField; }
+    public PasswordField      getPasswordField()    { return passwordField; }
+    public TextField          getLastNameField()    { return lastNameField; }
+    public TextField          getFirstNameField()   { return firstNameField; }
+    public TextField          getPatronymicField()  { return patronymicField; }
+    public TextField          getAddressField()     { return addressField; }
+    public TextField          getPhoneField()       { return phoneField; }
+    public ComboBox<Country>  getCountryBox()       { return countryBox; }
+    public Button             getRegisterButton()   { return registerButton; }
+    public Button             getBackButton()       { return backButton; }
 }

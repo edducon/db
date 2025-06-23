@@ -1,4 +1,3 @@
-// src/main/java/org/db/kursovoi/controller/AdminController.java
 package org.db.kursovoi.controller;
 
 import javafx.collections.FXCollections;
@@ -36,7 +35,6 @@ public class AdminController {
         window.show();
     }
 
-    // === Страны ===
     private void initCountriesTab() {
         CountriesView cv = view.getCountriesView();
         loadCountries(cv);
@@ -58,7 +56,6 @@ public class AdminController {
         cv.getEdit().setOnAction(e -> {
             String sel = cv.getList().getSelectionModel().getSelectedItem();
             if (sel == null) return;
-            // ожидаем формат "Name — Climate"
             String[] parts = sel.split(" — ", 2);
             String oldName = parts[0], oldClimate = parts[1];
 
@@ -85,7 +82,6 @@ public class AdminController {
         });
     }
 
-    /** Загружает в ListView список всех стран */
     private void loadCountries(CountriesView cv) {
         var items = cv.getList().getItems();
         items.clear();
@@ -100,7 +96,6 @@ public class AdminController {
         }
     }
 
-    // === Отели ===
     private void initHotelsTab() {
         HotelsView hv = view.getHotelsView();
         loadHotels(hv);
@@ -182,13 +177,11 @@ public class AdminController {
         hv.getTable().setItems(items);
     }
 
-    // === Клиенты ===
     private void initClientsTab() {
         ClientsView cv = view.getClientsView();
         loadClients(cv);
 
         cv.getAdd().setOnAction(e -> {
-            // последовательные диалоги для каждого поля
             TextInputDialog d1 = new TextInputDialog();
             d1.setHeaderText("Фамилия");       Optional<String> ln = d1.showAndWait(); if (!ln.isPresent()) return;
             TextInputDialog d2 = new TextInputDialog();
@@ -255,7 +248,6 @@ public class AdminController {
         cv.getTable().setItems(items);
     }
 
-    // === Туры ===
     private void initToursTab() {
         ToursView tv = view.getToursView();
         loadTours(tv);
@@ -289,7 +281,6 @@ public class AdminController {
         tv.getTable().setItems(items);
     }
 
-    // === Пользователи ===
     private void initUsersTab() {
         UsersView uv = view.getUsersView();
         loadUsers(uv);

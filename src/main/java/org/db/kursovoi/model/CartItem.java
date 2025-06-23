@@ -1,9 +1,7 @@
-// src/main/java/org/db/kursovoi/model/CartItem.java
 package org.db.kursovoi.model;
 
 import java.time.LocalDate;
 
-/** Позиция в корзине (не хранится в БД) */
 public class CartItem {
 
     private final int       hotelId;

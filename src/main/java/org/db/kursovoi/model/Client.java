@@ -1,7 +1,5 @@
-// src/main/java/org/db/kursovoi/model/Client.java
 package org.db.kursovoi.model;
 
-/** Одна запись таблицы clients */
 public class Client {
 
     private final int    id;

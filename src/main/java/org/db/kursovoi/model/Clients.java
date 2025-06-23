@@ -1,4 +1,3 @@
-// src/main/java/org/db/kursovoi/model/Clients.java
 package org.db.kursovoi.model;
 
 import javafx.scene.Scene;
@@ -13,9 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Observable;
 
-/**
- * Singleton-модель "Clients": CRUD + отрисовка + окно управления.
- */
 public final class Clients extends Observable {
 
     private static Clients INSTANCE;
@@ -25,7 +21,6 @@ public final class Clients extends Observable {
         return INSTANCE;
     }
 
-    /** Возвращает всех клиентов */
     public ResultSet selectAll() throws SQLException {
         String sql = "SELECT client_id,last_name,first_name,patronymic,address,phone FROM clients";
         Connection cn = Database.get();
@@ -35,7 +30,6 @@ public final class Clients extends Observable {
         return ps.executeQuery();
     }
 
-    /** Находит одного клиента */
     public Client find(int id) {
         try {
             String sql = "SELECT client_id,last_name,first_name,patronymic,address,phone "
@@ -61,7 +55,6 @@ public final class Clients extends Observable {
         return null;
     }
 
-    /** Вставляет нового клиента и уведомляет об изменении */
     public int insert(String ln, String fn, String pt, String ad, String ph) {
         String sql = "INSERT INTO clients(last_name,first_name,patronymic,address,phone)"
                 + " VALUES(?,?,?,?,?)";
@@ -87,7 +80,6 @@ public final class Clients extends Observable {
         return -1;
     }
 
-    /** Обновляет клиента и уведомляет об изменении */
     public void update(int id, String ln, String fn, String pt, String ad, String ph) {
         String sql = "UPDATE clients SET last_name=?,first_name=?,patronymic=?,address=?,phone=? WHERE client_id=?";
         try (Connection cn = Database.get();
@@ -105,7 +97,6 @@ public final class Clients extends Observable {
         }
     }
 
-    /** Удаляет клиента и уведомляет об изменении */
     public void delete(int id) {
         String sql = "DELETE FROM clients WHERE client_id=?";
         try (Connection cn = Database.get();
@@ -118,12 +109,9 @@ public final class Clients extends Observable {
         }
     }
 
-    // ——— методы для отрисовки и показа окна ———
-
-    /** Рисует список клиентов на переданном GraphicsContext */
     private void draw(GraphicsContext gc) {
         gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
-        gc.fillText("=== Список клиентов ===", 10, 20);
+        gc.fillText("Список клиентов", 10, 20);
         int y = 40;
         try (ResultSet rs = selectAll()) {
             while (rs.next()) {
@@ -140,10 +128,6 @@ public final class Clients extends Observable {
         }
     }
 
-    /**
-     * Открывает окно управления клиентами и подписывается
-     * на изменения для автоматической перерисовки списка.
-     */
     public void showWindow(Stage owner) {
         Canvas canvas = new Canvas(600, 400);
         GraphicsContext gc = canvas.getGraphicsContext2D();

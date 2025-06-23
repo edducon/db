@@ -1,4 +1,3 @@
-// src/main/java/org/db/kursovoi/model/Countries.java
 package org.db.kursovoi.model;
 
 import javafx.scene.Scene;
@@ -13,9 +12,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Observable;
 
-/**
- * Singleton‐модель "Countries": CRUD + поиск по имени + отрисовка.
- */
 public final class Countries extends Observable {
 
     private static Countries INSTANCE;
@@ -25,7 +21,6 @@ public final class Countries extends Observable {
         return INSTANCE;
     }
 
-    /** Вернуть все страны */
     public ResultSet selectAll() throws SQLException {
         Connection cn = Database.get();
         PreparedStatement ps = cn.prepareStatement(
@@ -36,7 +31,6 @@ public final class Countries extends Observable {
         return ps.executeQuery();
     }
 
-    /** Вернуть страну по точному имени */
     public ResultSet selectByName(String name) throws SQLException {
         Connection cn = Database.get();
         PreparedStatement ps = cn.prepareStatement(
@@ -48,7 +42,6 @@ public final class Countries extends Observable {
         return ps.executeQuery();
     }
 
-    /** Вставить новую страну */
     public void insert(String name, String climate) {
         String sql = "INSERT INTO countries(country_name,climate_features) VALUES(?,?)";
         try (Connection cn = Database.get();
@@ -62,7 +55,6 @@ public final class Countries extends Observable {
         }
     }
 
-    /** Обновить существующую страну */
     public void update(String oldName, String newName, String newClimate) {
         String sql = "UPDATE countries SET country_name=?,climate_features=? WHERE country_name=?";
         try (Connection cn = Database.get();
@@ -77,7 +69,6 @@ public final class Countries extends Observable {
         }
     }
 
-    /** Удалить страну */
     public void delete(String name) {
         String sql = "DELETE FROM countries WHERE country_name=?";
         try (Connection cn = Database.get();
@@ -90,11 +81,10 @@ public final class Countries extends Observable {
         }
     }
 
-    // ——— отрисовка ———
 
     private void draw(GraphicsContext gc) {
         gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
-        gc.fillText("=== Список стран ===", 10, 20);
+        gc.fillText("Список стран", 10, 20);
         int y = 40;
         try (ResultSet rs = selectAll()) {
             while (rs.next()) {
@@ -108,16 +98,12 @@ public final class Countries extends Observable {
         }
     }
 
-    /**
-     * Открыть окно управления странами.
-     * Перерисовывает Canvas при изменениях модели.
-     */
     public void showWindow(Stage owner) {
         Canvas canvas = new Canvas(600, 400);
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.setFont(javafx.scene.text.Font.font(14));
 
-        draw(gc);  // начальная отрисовка
+        draw(gc);
         this.addObserver((o, arg) -> draw(gc));
 
         Stage win = new Stage();

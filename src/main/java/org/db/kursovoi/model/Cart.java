@@ -1,4 +1,3 @@
-// src/main/java/org/db/kursovoi/model/Cart.java
 package org.db.kursovoi.model;
 
 import javafx.scene.canvas.GraphicsContext;
@@ -9,10 +8,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 
-/**
- * Модель корзины: хранит CartItem-ы, уведомляет об изменениях
- * и умеет рисовать себя на GraphicsContext.
- */
 public class Cart extends Observable {
     private final List<CartItem> items = new ArrayList<>();
 
@@ -37,12 +32,9 @@ public class Cart extends Observable {
         return Collections.unmodifiableList(items);
     }
 
-    /**
-     * Рисует текущее содержимое корзины на переданном GraphicsContext.
-     */
     public void draw(GraphicsContext gc) {
         gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
-        gc.fillText("=== Корзина ===", 10, 20);
+        gc.fillText("Корзина", 10, 20);
         int y = 40;
         DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         for (CartItem it : items) {

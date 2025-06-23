@@ -1,4 +1,3 @@
-// src/main/java/org/db/kursovoi/model/Preferences.java
 package org.db.kursovoi.model;
 
 import java.sql.Connection;
@@ -6,10 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-/**
- * Синглтон для хранения и получения предпочтительной страны клиента.
- * Управляет таблицей client_countries.
- */
 public final class Preferences {
 
     private Preferences() { }
@@ -22,10 +17,6 @@ public final class Preferences {
     private static final String SEL =
             "SELECT country_name FROM client_countries WHERE client_id=? LIMIT 1";
 
-    /**
-     * Устанавливает предпочтительную страну для клиента.
-     * Сначала удаляет старую запись, затем добавляет новую.
-     */
     public void setPreferredCountry(int clientId, String country) {
         try (Connection cn = Database.get();
              PreparedStatement d = cn.prepareStatement(DEL)) {
@@ -45,9 +36,6 @@ public final class Preferences {
         }
     }
 
-    /**
-     * Возвращает текущую предпочтительную страну клиента или null, если её нет.
-     */
     public String getPreferredCountry(int clientId) {
         try (Connection cn = Database.get();
              PreparedStatement ps = cn.prepareStatement(SEL)) {

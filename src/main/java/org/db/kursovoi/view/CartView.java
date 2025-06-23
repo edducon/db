@@ -12,10 +12,6 @@ import org.db.kursovoi.model.Cart;
 import java.util.Observable;
 import java.util.Observer;
 
-/**
- * View корзины: Canvas для отрисовки и три кнопки.
- * Подписывается на модель и при update перерисовывает Canvas.
- */
 public class CartView implements Observer {
     private final Cart   model;
     private final Canvas canvas    = new Canvas(600, 400);
@@ -29,9 +25,7 @@ public class CartView implements Observer {
         root = new VBox(10, canvas, deleteBtn, orderBtn, homeBtn);
         root.setPadding(new Insets(20));
 
-        // начальная отрисовка
         redraw();
-        // подписка на изменения модели
         model.addObserver(this);
     }
 

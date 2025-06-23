@@ -40,7 +40,8 @@ public class AdminView {
 
     public Parent getRoot()               { return root; }
     public Button getClose()              { return closeBtn; }
-    // Вот эти геттеры мы и добавляем:
+
+
     public CountriesView getCountriesView() { return countriesView; }
     public HotelsView    getHotelsView()    { return hotelsView;    }
     public ClientsView   getClientsView()   { return clientsView;   }
