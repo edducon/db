@@ -10,8 +10,8 @@
 .button {
     -fx-background-color: linear-gradient(to bottom, #6BA, #48A);
     -fx-text-fill: white;
-    -fx-font-size: 14px;
-    -fx-padding: 8 16;
+    -fx-font-size: 12px;
+    -fx-padding: 6 12;
     -fx-background-radius: 6;
     -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.2), 4, 0, 0, 2);
 }
@@ -19,4 +19,16 @@
 /* Специальный класс для «Закрыть» */
 .close-button {
     -fx-background-color: #E74C3C;
+}
+
+.country-header {
+    -fx-font-size: 16px;                /* чуть больше, чем обычный текст */
+    -fx-font-weight: bold;              /* жирный шрифт */
+    -fx-text-fill: #333333;             /* тёмно-серый цвет текста */
+    -fx-background-color: #EEEEEE;      /* светлый фон */
+    -fx-padding: 8 0 8 8;               /* отступы: сверху/снизу/справа/слева */
+    -fx-border-color: #48A;             /* цвет левого бордера = акцент цвета кнопок */
+    -fx-border-width: 0 0 0 4;          /* только левый бордер толщиной 4px */
+    -fx-border-insets: 0 0 0 0;
+    -fx-background-insets: 0 0 0 0;
 }

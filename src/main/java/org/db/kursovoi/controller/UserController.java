@@ -2,6 +2,7 @@ package org.db.kursovoi.controller;
 
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
@@ -67,9 +68,9 @@ public class UserController {
             if (rs.next()) clim = rs.getString("climate_features");
         } catch (Exception e) { e.printStackTrace(); }
 
-        box.getChildren().add(new javafx.scene.control.Label(
-                "--- "+cn+" (климат: "+clim+") ---"
-        ));
+        Label countryLabel = new Label(cn + " (климат: " + clim + ")");
+        countryLabel.getStyleClass().add("country-header");
+        box.getChildren().add(countryLabel);
 
         try (var rs = Hotels.get().selectByCountry(cn)) {
             while (rs.next()) {
