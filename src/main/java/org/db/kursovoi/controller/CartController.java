@@ -19,7 +19,11 @@ public class CartController {
 
         win.initOwner(owner);
         win.setTitle("Корзина");
-        win.setScene(new Scene(view.getRoot()));
+        Scene scene = new Scene(view.getRoot());
+            scene.getStylesheets().add(
+                        getClass().getResource("/app.css").toExternalForm()
+                            );
+            win.setScene(scene);
         win.show();
 
         view.getHomeBtn().setOnAction(e -> win.close());

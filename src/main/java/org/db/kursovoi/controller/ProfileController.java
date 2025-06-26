@@ -33,7 +33,11 @@ public class ProfileController {
         view.getHomeButton().setOnAction(e -> win.close());
 
         win.initOwner(owner);
-        win.setScene(new Scene(view.getRoot()));
+        Scene scene = new Scene(view.getRoot());
+            scene.getStylesheets().add(
+                        getClass().getResource("/app.css").toExternalForm()
+                            );
+            win.setScene(scene);
         win.setTitle("Профиль");
         win.show();
     }

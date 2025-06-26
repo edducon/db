@@ -1,0 +1,22 @@
+/* src/main/resources/app.css */
+
+/* Общий фон и шрифт для всех корней */
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-background-color: #f4f4f4;
+}
+
+/* Все кнопки */
+.button {
+    -fx-background-color: linear-gradient(to bottom, #6BA, #48A);
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+    -fx-padding: 8 16;
+    -fx-background-radius: 6;
+    -fx-effect: dropshadow(two-pass-box, rgba(0,0,0,0.2), 4, 0, 0, 2);
+}
+
+/* Специальный класс для «Закрыть» */
+.close-button {
+    -fx-background-color: #E74C3C;
+}

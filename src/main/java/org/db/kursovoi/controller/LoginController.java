@@ -26,7 +26,9 @@ public class LoginController {
         view.getToRegisterButton().setOnAction(e -> {
             RegistrationView rv = new RegistrationView();
             new RegistrationController(stage, rv);
-            stage.setScene(new Scene(rv.getRoot()));
+            Scene regScene = new Scene(rv.getRoot());
+               regScene.getStylesheets().add(getClass().getResource("/app.css").toExternalForm());
+               stage.setScene(regScene);
             stage.setTitle("Регистрация");
         });
     }
@@ -44,13 +46,19 @@ public class LoginController {
 
             // открываем каталог
             UserView main = new UserView();
-            stage.setScene(new Scene(main.getRoot()));
+            Scene scene = new Scene(main.getRoot());
+                scene.getStylesheets().add(
+                            getClass().getResource("/app.css").toExternalForm()
+                                );
+                stage.setScene(scene);
             stage.setTitle("Каталог туров");
 
             main.getLogoutButton().setOnAction(ev -> {
                 LoginView lv = new LoginView();
                 new LoginController(stage, lv);
-                stage.setScene(new Scene(lv.getRoot()));
+                Scene loginScene = new Scene(lv.getRoot());
+                loginScene.getStylesheets().add(getClass().getResource("/app.css").toExternalForm());
+                stage.setScene(loginScene);
                 stage.setTitle("Вход");
             });
 

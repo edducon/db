@@ -19,7 +19,11 @@ public class AdminController {
         view   = new AdminView();
         window = new Stage();
         window.initOwner(owner);
-        window.setScene(new Scene(view.getRoot()));
+        Scene scene = new Scene(view.getRoot());
+            scene.getStylesheets().add(
+                        getClass().getResource("/app.css").toExternalForm()
+                            );
+            window.setScene(scene);
         window.setTitle("Админ-панель");
 
         initCountriesTab();

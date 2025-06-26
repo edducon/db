@@ -20,6 +20,7 @@ public class AdminView {
     private final BorderPane root    = new BorderPane();
 
     public AdminView() {
+        closeBtn.getStyleClass().add("close-button");
         tabs.getTabs().addAll(
                 new Tab("Страны",          countriesView.getRoot()),
                 new Tab("Отели",           hotelsView.getRoot()),

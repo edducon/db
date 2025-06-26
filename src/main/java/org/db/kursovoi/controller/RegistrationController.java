@@ -52,7 +52,9 @@ public class RegistrationController {
         public void handle(ActionEvent e) {
             LoginView lv = new LoginView();
             new LoginController(stage, lv);
-            stage.setScene(new Scene(lv.getRoot()));
+            Scene loginScene = new Scene(lv.getRoot());
+            loginScene.getStylesheets().add(getClass().getResource("/app.css").toExternalForm());
+            stage.setScene(loginScene);
             stage.setTitle("Вход");
         }
     }

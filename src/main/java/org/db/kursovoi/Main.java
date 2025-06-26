@@ -15,8 +15,13 @@ public class Main extends Application {
         // Controller
         new LoginController(stage, view);
 
-        // первичная сцена
-        stage.setScene(new Scene(view.getRoot()));
+        // создаём сцену в переменной, чтобы к ней добавить стили
+        Scene scene = new Scene(view.getRoot());
+        // подключаем файл app.css из ресурсов
+        scene.getStylesheets().add(getClass().getResource("/app.css").toExternalForm());
+
+        // устанавливаем сцену и показываем окно
+        stage.setScene(scene);
         stage.setTitle("Вход");
         stage.show();
     }
